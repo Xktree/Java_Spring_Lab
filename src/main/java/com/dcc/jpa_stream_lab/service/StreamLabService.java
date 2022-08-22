@@ -59,14 +59,14 @@ public class StreamLabService {
     {
         // Write a query that gets each product whose price is less than or equal to $100.
         // Return the list
-        return products.findAll().stream().filter(product -> product.getPrice() <= 100).toList();
+        return products.findAll().stream().filter(p -> p.getPrice() <= 100).toList();
     }
 
     public List<Product> RProblemThree()
     {
         // Write a query that gets each product that CONTAINS an "s" in the products name.
         // Return the list
-    	return null;
+    	return products.findAll().stream().filter(p -> p.getName().contains("s")).toList();
     }
 
     public List<User> RProblemFour()
@@ -75,15 +75,13 @@ public class StreamLabService {
         // Return the list
         // Research 'java create specific date' and 'java compare dates'
         // You may need to use the helper classes imported above!
-    	
-        return null;
-    }
+    	Date date = new Date(01-01-2016);
+        return users.findAll().stream().filter(u -> u.getRegistrationDate().before(date)).toList();
 
     public List<User> RProblemFive()
     {
         // Write a query that gets all of the users who registered AFTER 2016 and BEFORE 2018
         // Return the list
-
         return null;
     }
 
