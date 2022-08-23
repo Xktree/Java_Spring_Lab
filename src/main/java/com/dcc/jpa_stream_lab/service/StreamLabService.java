@@ -1,5 +1,7 @@
 package com.dcc.jpa_stream_lab.service;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,39 +72,40 @@ public class StreamLabService {
     	return products.findAll().stream().filter(p -> p.getName().contains("s")).toList();
     }
 
-    public List<User> RProblemFour()
-    {
+    public List<User> RProblemFour() {
         // Write a query that gets all the users who registered BEFORE 2016
         // Return the list
         // Research 'java create specific date' and 'java compare dates'
         // You may need to use the helper classes imported above!
-    	Date date = new Date(01-01-2016);
+        Date date = new GregorianCalendar(2016, Calendar.JANUARY, 1).getTime();
         return users.findAll().stream().filter(u -> u.getRegistrationDate().before(date)).toList();
+    }
 
     public List<User> RProblemFive()
     {
-        // Write a query that gets all of the users who registered AFTER 2016 and BEFORE 2018
+        // Write a query that gets all the users who registered AFTER 2016 and BEFORE 2018
         // Return the list
-        return null;
+        Date date = new GregorianCalendar(2016, Calendar.JANUARY, 1).getTime();
+        Date new_date = new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime();
+        return users.findAll().stream().filter(u -> u.getRegistrationDate().compareTo(date) > 0 && u.getRegistrationDate().compareTo(new_date) < 0).toList();
     }
 
     // <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
 
     public List<User> RDemoThree()
     {
-        // Write a query that retrieves all of the users who are assigned to the role of Customer.
+        // Write a query that retrieves all the users who are assigned to the role of Customer.
     	Role customerRole = roles.findAll().stream().filter(r -> r.getName().equals("Customer")).findFirst().orElse(null);
-    	List<User> customers = users.findAll().stream().filter(u -> u.getRoles().contains(customerRole)).toList();
 
-    	return customers;
+        return users.findAll().stream().filter(u -> u.getRoles().contains(customerRole)).toList();
     }
 
     public List<Product> RProblemSix()
     {
-        // Write a query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
+        // Write a query that retrieves all the products in the shopping cart of the user who has the email "afton@gmail.com".
         // Return the list
-
-    	return null;
+        List<ShoppingcartItem> aftonCart = shoppingcartitems.findAll().stream().filter(i -> i.getUser().getEmail().contains("afton@gmail.com")).toList();
+    	return aftonCart.stream().map((p) -> p.getProduct()).toList();
     }
 
     public long RProblemSeven()
