@@ -110,20 +110,19 @@ public class StreamLabService {
 
     public long RProblemSeven()
     {
-        // Write a query that retrieves all of the products in the shopping cart of the user who has the email "oda@gmail.com" and returns the sum of all of the products prices.
+        // Write a query that retrieves all the products in the shopping cart of the user who has the email "oda@gmail.com" and returns the sum of all the products prices.
     	// Remember to break the problem down and take it one step at a time!
-
-
-    	return 0;
-
+        List<ShoppingcartItem> odaCart = shoppingcartitems.findAll().stream().filter(i -> i.getUser().getEmail().contains("oda@gmail.com")).toList();
+    	return odaCart.stream().mapToInt((p) -> p.getProduct().getPrice()).sum();
     }
 
     public List<Product> RProblemEight()
     {
-        // Write a query that retrieves all of the products in the shopping cart of users who have the role of "Employee".
+        // Write a query that retrieves all the products in the shopping cart of users who have the role of "Employee".
     	// Return the list
-
-    	return null;
+        Role employeeRole = roles.findAll().stream().filter(r -> r.getName().equals("Employee")).findFirst().orElse(null);
+        List<ShoppingcartItem> employeeCart = shoppingcartitems.findAll().stream().filter(i -> i.getUser().getRoles().contains(employeeRole)).toList();
+    	return employeeCart.stream().map((p) -> p.getProduct()).toList();
     }
 
     // <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
